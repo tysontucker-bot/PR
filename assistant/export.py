@@ -2,6 +2,7 @@ import csv
 from datetime import datetime
 from pathlib import Path
 
+from assistant.exceptions import UserCancelled
 from assistant.models import SessionData
 
 
@@ -25,7 +26,7 @@ def export_session(session: SessionData) -> None:
     csv_path, txt_path = _output_paths(session)
     confirm = input(f"\nSave files to:\n- {csv_path}\n- {txt_path}\nProceed? [y/n]: ").strip().lower()
     if confirm != "y":
-        raise SystemExit("Session ended without saving.")
+        raise UserCancelled("Session ended without saving.")
 
     with csv_path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(

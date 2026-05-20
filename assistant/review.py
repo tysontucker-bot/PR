@@ -1,3 +1,4 @@
+from assistant.exceptions import UserCancelled
 from assistant.generator import generate_comment
 from assistant.models import SessionData
 
@@ -57,7 +58,7 @@ def review_session(session: SessionData) -> None:
         if action == "c":
             return
         if action == "q":
-            raise SystemExit("Session ended without saving.")
+            raise UserCancelled("Session ended without saving.")
 
         selection = input("Enter goal number to edit: ").strip()
         if selection.isdigit():
