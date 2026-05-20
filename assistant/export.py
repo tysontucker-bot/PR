@@ -21,7 +21,7 @@ def _safe_name(value: str) -> str:
 
 def _output_paths(session: SessionData) -> tuple[Path, Path]:
     output_dir = Path.cwd() / "outputs"
-    stamp = datetime.now().strftime("%Y%m%d")
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     student = _safe_name(session.student_name)
     period = _safe_name(session.reporting_period)
     base_name = f"{student}_{period}_{stamp}"

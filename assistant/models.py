@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import Literal
 
 
 @dataclass
@@ -11,7 +12,7 @@ class GoalResponse:
     evidence_and_examples: str
     barriers_and_challenges: str
     next_instructional_steps: str
-    tone: str = "balanced"
+    tone: Literal["concise", "balanced", "detailed"] = "balanced"
     draft_comment: str = ""
     final_comment: str = ""
 
