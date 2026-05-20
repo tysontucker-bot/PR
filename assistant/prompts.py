@@ -24,6 +24,14 @@ def _prompt_choice(label: str, options: list[str]) -> str:
         print(f"Please choose one of: {option_text}")
 
 
+def _prompt_positive_int(label: str) -> int:
+    while True:
+        value = _prompt_required(label)
+        if value.isdigit() and int(value) >= 1:
+            return int(value)
+        print("Please enter a whole number of 1 or more.")
+
+
 def collect_session_data() -> SessionData:
     print("\nSpecial Education Progress Report Assistant (Local Only)\n")
     student_name = _prompt_required("Student name")
@@ -35,11 +43,7 @@ def collect_session_data() -> SessionData:
         reporting_period=reporting_period,
     )
 
-    goal_count = _prompt_required("How many goals are you reporting on?")
-    while not goal_count.isdigit() or int(goal_count) < 1:
-        print("Please enter a whole number of 1 or more.")
-        goal_count = _prompt_required("How many goals are you reporting on?")
-    total_goals = int(goal_count)
+    total_goals = _prompt_positive_int("How many goals are you reporting on?")
 
     for index in range(1, total_goals + 1):
         print(f"\n--- Goal {index} of {total_goals} ---")
