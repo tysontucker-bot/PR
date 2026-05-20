@@ -15,6 +15,7 @@ def _safe_char(char: str) -> str:
 
 
 def _safe_name(value: str) -> str:
+    """Convert user text to a stable filename segment, trimming edge underscores for readability."""
     keep = [_safe_char(char) for char in value.strip().replace(" ", "_")]
     return "".join(keep).strip("_") or DEFAULT_FILENAME
 
