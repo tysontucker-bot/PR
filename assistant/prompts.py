@@ -27,8 +27,10 @@ def _prompt_choice(label: str, options: list[str]) -> str:
 def _prompt_positive_int(label: str) -> int:
     while True:
         value = _prompt_required(label)
-        if value.isdigit() and int(value) >= 1:
-            return int(value)
+        if value.isdigit():
+            parsed = int(value)
+            if parsed >= 1:
+                return parsed
         print("Please enter a whole number of 1 or more.")
 
 

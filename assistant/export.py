@@ -25,7 +25,7 @@ def _output_paths(session: SessionData) -> tuple[Path, Path]:
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     student = _safe_name(session.student_name)
     period = _safe_name(session.reporting_period)
-    base_name = f"{student}--{period}--{stamp}"
+    base_name = f"{student}-{period}-{stamp}"
     return output_dir / f"{base_name}.csv", output_dir / f"{base_name}.txt"
 
 
