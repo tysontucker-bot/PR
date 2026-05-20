@@ -2,6 +2,8 @@ from assistant.exceptions import UserCancelled
 from assistant.generator import generate_comment
 from assistant.models import SessionData
 
+TONE_ROTATION = {"concise": "balanced", "balanced": "detailed", "detailed": "concise"}
+
 
 def _prompt_action() -> str:
     while True:
@@ -44,8 +46,7 @@ def review_session(session: SessionData) -> None:
                 goal.final_comment = _edit_comment(goal.draft_comment)
                 break
 
-            tone_map = {"concise": "balanced", "balanced": "detailed", "detailed": "concise"}
-            goal.tone = tone_map[goal.tone]
+            goal.tone = TONE_ROTATION[goal.tone]
             print(f"Regenerated using {goal.tone} style.")
 
     while True:

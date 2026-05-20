@@ -6,8 +6,14 @@ from assistant.exceptions import UserCancelled
 from assistant.models import SessionData
 
 
+def _safe_char(char: str) -> str:
+    if char.isalnum() or char in {"-", "_"}:
+        return char
+    return "_"
+
+
 def _safe_name(value: str) -> str:
-    keep = [c if c.isalnum() or c in {"-", "_"} else "_" for c in value.strip().replace(" ", "_")]
+    keep = [_safe_char(char) for char in value.strip().replace(" ", "_")]
     return "".join(keep).strip("_") or "report"
 
 

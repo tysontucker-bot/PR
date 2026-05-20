@@ -1,5 +1,7 @@
 from assistant.models import GoalResponse, SessionData
 
+DEFAULT_BARRIERS_TEXT = "No major barriers were reported."
+
 
 def _prompt_required(label: str) -> str:
     while True:
@@ -57,7 +59,7 @@ def collect_session_data() -> SessionData:
                 progress_since_last_period=progress_since_last_period,
                 supports_and_accommodations=supports_and_accommodations,
                 evidence_and_examples=evidence_and_examples,
-                barriers_and_challenges=barriers_and_challenges or "No major barriers were reported.",
+                barriers_and_challenges=barriers_and_challenges or DEFAULT_BARRIERS_TEXT,
                 next_instructional_steps=next_instructional_steps,
                 tone=tone,
             )
