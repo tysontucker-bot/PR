@@ -1,8 +1,9 @@
 import socket
+from typing import Any
 
 
 def enforce_local_only() -> None:
-    def _blocked(*args, **kwargs):  # type: ignore[no-untyped-def]
+    def _blocked(*args: Any, **kwargs: Any) -> None:
         raise RuntimeError(
             "Network access is disabled for this assistant. "
             "Use local inputs only."

@@ -2,6 +2,8 @@ from pathlib import Path
 
 from assistant.models import GoalResponse
 
+DEFAULT_TONE_LINE = "Progress is summarized with a clear and professional level of detail."
+
 
 def _load_template() -> str:
     template_path = Path(__file__).resolve().parent.parent / "templates" / "progress_comment.txt"
@@ -13,8 +15,8 @@ def generate_comment(goal: GoalResponse) -> str:
     tone_line = {
         "concise": "Progress is summarized briefly with key updates.",
         "detailed": "Progress is summarized with additional instructional detail.",
-        "balanced": "Progress is summarized with a clear and professional level of detail.",
-    }.get(goal.tone, "Progress is summarized with a clear and professional level of detail.")
+        "balanced": DEFAULT_TONE_LINE,
+    }.get(goal.tone, DEFAULT_TONE_LINE)
 
     return template.format(
         goal_name=goal.goal_name,

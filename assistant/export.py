@@ -5,6 +5,8 @@ from pathlib import Path
 from assistant.exceptions import UserCancelled
 from assistant.models import SessionData
 
+DEFAULT_FILENAME = "report"
+
 
 def _safe_char(char: str) -> str:
     if char.isalnum() or char in {"-", "_"}:
@@ -14,13 +16,11 @@ def _safe_char(char: str) -> str:
 
 def _safe_name(value: str) -> str:
     keep = [_safe_char(char) for char in value.strip().replace(" ", "_")]
-    return "".join(keep).strip("_") or "report"
+    return "".join(keep).strip("_") or DEFAULT_FILENAME
 
 
 def _output_paths(session: SessionData) -> tuple[Path, Path]:
     output_dir = Path.cwd() / "outputs"
-    output_dir.mkdir(parents=True, exist_ok=True)
-
     stamp = datetime.now().strftime("%Y%m%d")
     student = _safe_name(session.student_name)
     period = _safe_name(session.reporting_period)
@@ -30,9 +30,15 @@ def _output_paths(session: SessionData) -> tuple[Path, Path]:
 
 def export_session(session: SessionData) -> None:
     csv_path, txt_path = _output_paths(session)
-    confirm = input(f"\nSave files to:\n- {csv_path}\n- {txt_path}\nProceed? [y/n]: ").strip().lower()
-    if confirm != "y":
-        raise UserCancelled("Session ended without saving.")
+    while True:
+        confirm = input(f"\nSave files to:\n- {csv_path}\n- {txt_path}\nProceed? [y/n]: ").strip().lower()
+        if confirm == "y":
+            break
+        if confirm == "n":
+            raise UserCancelled("Session ended without saving.")
+        print("Please enter y or n.")
+
+    csv_path.parent.mkdir(parents=True, exist_ok=True)
 
     with csv_path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(
