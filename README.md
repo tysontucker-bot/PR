@@ -1,82 +1,72 @@
-# Special Education Progress Report Assistant (Planning)
+# Special Education Progress Report Assistant
 
-This repository currently contains the planning blueprint for a **local-only, interactive assistant** to help teachers draft special education progress report comments.
+Local-only, teacher-friendly assistant for drafting special education progress report comments.
 
-## Goals
+## MVP Features
 
-The assistant should:
-- Ask structured questions for each student goal
-- Generate professional comments based **only** on teacher-provided answers
-- Avoid websites, cloud APIs, and external student information systems
-- Run locally on a teacher computer
-- Let teachers review and edit text before saving
-- Export final comments to a simple document or spreadsheet format
+- One reporting session at a time, with multiple goals per student
+- Guided command-line prompts with progress labels (Goal X of Y)
+- Fixed structured prompts per goal:
+  - current performance
+  - progress since last period
+  - supports/accommodations used
+  - evidence/examples
+  - barriers/challenges
+  - next instructional steps
+- Local template-based comment generation from teacher answers only
+- Per-goal review step with:
+  - accept
+  - edit
+  - regenerate (different detail style)
+- Final review before save
+- Export to:
+  - `.csv` (spreadsheet-ready)
+  - `.txt` (simple document)
 
-## Recommended First Implementation
+## Run Locally
 
-Build a small **Python command-line app** with a guided, form-like flow.
+Requirements:
+- Python 3.10+ (standard library only; no external dependencies)
 
-Why this approach:
-- Very low setup burden
-- Easy to run offline (`python app.py`)
-- Friendly step-by-step prompts
-- Can add a simple desktop UI later without changing core logic
+From repository root:
 
-## Proposed User Flow (Teacher-Friendly)
+```bash
+python app.py
+```
 
-1. **Start session**
-   - Prompt for student name/ID and reporting period
-2. **Enter goals**
-   - One goal at a time, repeating until complete
-3. **Answer structured prompts per goal**
-   - Baseline/current performance
-   - Progress summary
-   - Supports/accommodations used
-   - Evidence/examples observed
-   - Barriers/challenges
-   - Next instructional steps
-4. **Generate draft comment**
-   - Use a local template engine/rule-based formatter (no external data)
-5. **Review & edit**
-   - Show generated comment
-   - Offer edit/retry/accept options
-6. **Export**
-   - Save all accepted comments to:
-     - `.csv` (spreadsheet-friendly)
-     - `.txt` or `.docx` (document-friendly)
+## Output Files
 
-## Interface Design Notes
+Saved in a local `outputs/` folder:
+- `<student>-<reporting-period>-<YYYYMMDD_HHMMSS>.csv`
+- `<student>-<reporting-period>-<YYYYMMDD_HHMMSS>.txt`
 
-Keep prompts short and plain-language:
-- One question per screen/line
-- Clear progress indicator: “Goal 2 of 5”
-- Default options where possible (Yes/No, rating scales)
-- Confirmations before overwrite/save
+The app asks for confirmation before writing files.
 
-## Data & Privacy Guardrails
+## Privacy & Offline Safeguards
 
-- All data stays local in files on the teacher device
-- No network calls in generation logic
-- Include an “offline mode” check that fails fast if any network-backed feature is accidentally added later
+- No websites, cloud APIs, or external systems are used.
+- The app disables socket-based network access at startup.
+- All data is entered and stored locally on the teacher device.
+- To delete local data, remove files in `outputs/`.
 
-## Suggested Project Structure (when coding begins)
+## Project Structure
 
 ```text
 app.py
 assistant/
-  prompts.py          # Question sets and validation
-  models.py           # Student/goal data objects
-  generator.py        # Comment generation from answers only
-  review.py           # Edit/accept flow
-  export.py           # CSV/TXT/DOCX export helpers
+  models.py      # Session and goal data
+  prompts.py     # Guided teacher prompts + light validation
+  generator.py   # Template-driven comment generation
+  review.py      # Per-goal and final review/edit flow
+  export.py      # CSV and TXT export
+  offline.py     # Network-block safeguard
 templates/
   progress_comment.txt
+outputs/         # Created when files are exported
 ```
 
-## Acceptance Criteria for Future Code Work
+## Phased Rollout
 
-- Teacher can complete at least one student with multiple goals in one run
-- Each goal yields a generated draft tied to entered answers
-- Teacher can edit before final save
-- Export produces valid CSV and TXT/DOCX outputs
-- App works with internet disabled
+- Phase 1 (implemented): CLI + local generation + review/edit + CSV/TXT export
+- Phase 2 (future): lightweight desktop UI using same core modules
+- Phase 3 (future): customizable district wording and reusable prompt sets

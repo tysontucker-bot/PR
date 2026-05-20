@@ -1,0 +1,13 @@
+For the goal "{goal_name}", the student's current performance is as follows: {current_performance}
+
+Since the last reporting period, progress is noted as: {progress_since_last_period}
+
+Instructional supports and accommodations used include: {supports_and_accommodations}
+
+Evidence and classroom examples include: {evidence_and_examples}
+
+Barriers or challenges observed: {barriers_and_challenges}
+
+Next instructional steps will focus on: {next_instructional_steps}
+
+{tone_line}
