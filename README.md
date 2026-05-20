@@ -37,8 +37,8 @@ python app.py
 ## Output Files
 
 Saved in a local `outputs/` folder:
-- `<student>_<reporting-period>_<YYYYMMDD>.csv`
-- `<student>_<reporting-period>_<YYYYMMDD>.txt`
+- `<student>__<reporting-period>__<YYYYMMDD_HHMMSS>.csv`
+- `<student>__<reporting-period>__<YYYYMMDD_HHMMSS>.txt`
 
 The app asks for confirmation before writing files.
 
